@@ -27,17 +27,13 @@ spark = SparkSession(sc)
 # In[3]:
 
 
-df = spark.read.csv("file:///C:/Users/gauth/OneDrive/Desktop/testset.csv", inferSchema = True, header = True)
+df = spark.read.csv("testset.csv", inferSchema = True, header = True)
 df.show()
 
-
-# In[4]:
 
 
 from pyspark.sql.functions import mean
 
-
-# In[5]:
 
 
 mean_val = df.select(mean(df[' _pressurem'])).collect()
