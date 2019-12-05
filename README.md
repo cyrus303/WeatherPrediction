@@ -1,3 +1,4 @@
 # WeatherPrediction using Machine Learning
 
-predicting weather using ARIMA model 
+Data cleaning was done using Spark
+weather prediction using ARIMA model 
