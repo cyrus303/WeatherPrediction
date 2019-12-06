@@ -5,10 +5,11 @@ import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
 from statsmodels.tsa.arima_model import ARIMA
 from statsmodels.tsa.stattools import adfuller, acf, pacf
 from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
+# import pickle
 
 # There is column named **datetime_utc** in this dataset, we are going to read that as an index.
 
-weather_df = pd.read_csv('testset1.csv', parse_dates=['datetime_utc'], index_col='datetime_utc')
+weather_df = pd.read_csv('C:/Users/Reddy/Desktop/PROJECT/flas/testset1.csv', parse_dates=['datetime_utc'], index_col='datetime_utc')
 
 # <a>Feature Engineering</a>
 
@@ -57,15 +58,15 @@ perform_dickey_fuller_test(train_df.temprature)
 
 
 # We have constant Mean and Variance, and our Test statistic is less than Critical Values, so we already have stationary Time series. So our 'd' value will become 0 in ARIMA Model.
-# 
+#
 # Consider a case if it was non-stationary, in that case we would use below techniques to make it stationary
-# 
+#
 # Make Stationary
 # For non-stationary to stationary conversion, we can use any of the below technique :
-# 
+#
 # - Decomposing
 # - Differencing
-# 
+#
 # Here, we are preferring Differencing because it is very straight forward. We would use below co-relation plots to identify the order of differencing
 
 
@@ -75,24 +76,24 @@ perform_dickey_fuller_test(train_df.temprature)
 # An ARIMA model can be understood by outlining each of its components as follows:
 # * **Autoregression (AR) -** refers to a model that shows a changing variable that regresses on its own lagged, or prior, values.<br/>
 # The notation **AR(p)** indicates an autoregressive model of order p.
-# 
-#     *Example* — If p is 3 the predictor for X(t) will be 
+#
+#     *Example* — If p is 3 the predictor for X(t) will be
 #         X(t) = µ + X(t-1) + X(t-2) + X(t-3) + εt
-# 
+#
 #     Where ε is error term.
 # * **Integrated (I) -** represents the differencing of raw observations to allow for the time series to become stationary, i.e., data values are replaced by the difference between the data values and the previous values.
 # * **Moving average (MA) -** incorporates the dependency between an observation and a residual error from a moving average model applied to lagged observations.
-# 
+#
 #     The notation **MA(q)** refers to the moving average model of order q:<br/>
 #  ![image.png](attachment:image.png)
-# 
-#     *Example* — If q is 3 the predictor for X(t) will be 
+#
+#     *Example* — If q is 3 the predictor for X(t) will be
 #         X(t) = µ + εt + θ1.ε(t-1) + θ2.ε(t-2) + θ3.ε(t-3)
 #     Here instead of difference from previous term, we take errer term (ε) obtained from the difference from past term
 # Now we need to figure out the values of p and q which are parameters of ARIMA model. We use below two methods to figure out these values  -
-# 
+#
 # **Autocorrelation Function (ACF):** It just measures the correlation between two consecutive (lagged version). example at lag 4, ACF will compare series at time instance t1…t2 with series at instance t1–4…t2–4
-# 
+#
 # **Partial Autocorrelation Function (PACF):** is used to measure the degree of association between X(t) and X(t-p).
 
 
@@ -114,8 +115,7 @@ fc, se, conf = model_fit.forecast(480, alpha=0.05)  # 95% conf
 fc_series = pd.Series(fc, index=test_df.index)
 lower_series = pd.Series(conf[:, 0], index=test_df.index)
 upper_series = pd.Series(conf[:, 1], index=test_df.index)
-
-# converting dataframe to a csv file 
+# pickle.dump(model,open('TempPrediction.pkl','wb'))
+# converting dataframe to a csv file
 df = pd.DataFrame(fc_series, columns=['values'])
-df.to_csv('ModelOutput.csv',header=True)
-
+df.to_csv('mout.csv',header = True)
