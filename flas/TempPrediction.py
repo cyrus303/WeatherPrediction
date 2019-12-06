@@ -5,10 +5,11 @@ import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
 from statsmodels.tsa.arima_model import ARIMA
 from statsmodels.tsa.stattools import adfuller, acf, pacf
 from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
+# import pickle
 
 # There is column named **datetime_utc** in this dataset, we are going to read that as an index.
 
-weather_df = pd.read_csv('C:/Users/Reddy/Desktop/PROJECT/model/testset1.csv', parse_dates=['datetime_utc'], index_col='datetime_utc')
+weather_df = pd.read_csv('C:/Users/Reddy/Desktop/PROJECT/flas/testset1.csv', parse_dates=['datetime_utc'], index_col='datetime_utc')
 
 # <a>Feature Engineering</a>
 
@@ -114,7 +115,7 @@ fc, se, conf = model_fit.forecast(480, alpha=0.05)  # 95% conf
 fc_series = pd.Series(fc, index=test_df.index)
 lower_series = pd.Series(conf[:, 0], index=test_df.index)
 upper_series = pd.Series(conf[:, 1], index=test_df.index)
-
+# pickle.dump(model,open('TempPrediction.pkl','wb'))
 # converting dataframe to a csv file
 df = pd.DataFrame(fc_series, columns=['values'])
-df.to_csv('C:/Users/Reddy/Desktop/PROJECT/model/ModelOutput.csv',header=True)
+df.to_csv('mout.csv',header = True)
