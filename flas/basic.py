@@ -6,32 +6,41 @@ from subprocess import check_output
 import time
 import json
 from flask import request, redirect
-import numpy as np # linear algebra
-import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
-#import matplotlib.pyplot as plt
-#import seaborn as sns # for plot visualization
-from statsmodels.tsa.arima_model import ARIMA
-from statsmodels.tsa.stattools import adfuller, acf, pacf
-from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
+import TempPrediction
+import csv
+import numpy as np
 
 app= Flask(__name__)
+#model = pickle.load(open('TempPrediction.pkl', 'rb'))
 
 @app.route('/')
 def index():
     return render_template('display.html')
 
-@app.route('/background_process', methods=['GET', 'POST'])
-def background_process():
-        if request.method =="POST":
-            calender = request.form['calender']
-            return(calender)
-        else:
-                print("not available")
+@app.route('/predict', methods=['POST'])
+def predict():
+    int_features =request.form['interview_score']
 
-        subprocess.call(['python.exe','TempPrediction.py',])
+    with open(r'C:/Users/Reddy/Desktop/PROJECT/flas/mout.csv','rt') as f:
+        reader = csv.reader(f)
+        #print("4444444444444444444444444444444444")
+        for row in reader:
+            if row[0] == int_features:
+                output = row[1]
+                output=float(output)
+                output = round(output, 2)
 
+                return render_template('display.html', output= output)
+@app.route('/predict_api',methods=['POST'])
+def predict_api():
+    '''
+    For direct API calls trought request
+    '''
+    data = request.get_json(force=True)
+    prediction = TempPrediction.predict([np.array(list(data.values()))])
 
-
+    output = prediction[0]
+    return jsonify(output)
 
 @app.route('/indbig')
 def indbig():
