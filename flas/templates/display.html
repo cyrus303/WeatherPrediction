@@ -7,30 +7,22 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="crossorigin="anonymous"></script>
-    <link rel=stylesheet type="text/css" href="{{ url_for('static', filename='style.css') }}">
 
-<style type="text/css">
-html,body{
-    background-image: url("/static/images/sno.jpg");
-    -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}
-</style>
+    <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
 </script>
   </head>
   <body >
-<div style="background-image: url("/static/images/sno.jpg")">
+<div>
 
+    <a class="navbar navbar-dark"  href="{{url_for('convertor')}}"><h1>Home</h1></a>
+  </div>
 
-
-    <a class="navbar-brand"  href="{{url_for('convertor')}}"><h1>Home</h1></a>
-
-    </nav>
     <div class="navbar navbar-dark bg-transparent" >
-      <h1></h1>
-      <h2></h2>
       <style>
       img {
   display: block;
@@ -45,19 +37,95 @@ html,body{
       <img src="../static/images/logo.png" alt="">
     </div>
     <div class='container'>
-		<h3>Enter the date</h3>
-			<form action = "/background_process">
+      <br></br>
+      <br></br>
+
+		<h2>Enter the date</h2>
+			 <form action="{{ url_for('predict')}}" method="post">
       <div class="rounded mb-0">
-        <input type="date" name="calender" min="2016-01-01" max="2017-04-24" value="{{request.form.calender}}">
-      	<a><button class='btn btn-success'>Submit</button></a>
+        <input type="date" name="interview_score" min="2016-01-01" max="2017-04-24">
+      	<a><button class='btn btn-dark'>Submit</button></a>
         </form>
 
-        <a class="btn btn-dark" href="{{url_for('indbig')}}">VIZ</a>
+        <a class="btn btn-dark" href="{{url_for('indbig')}}">Forecast</a>
 
 
+<style media="screen">
+
+
+        .cards-list {
+          z-index: 0;
+          width: 100%;
+          display: flex;
+          justify-content: space-around;
+          flex-wrap: wrap;
+        }
+
+        .card {
+          margin: 30px auto;
+          width: 300px;
+          height: 300px;
+          border-radius: 40px;
+        box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.22);
+          cursor: pointer;
+          transition: 0.4s;
+        }
+
+        .card .card_image {
+          width: inherit;
+          height: inherit;
+          border-radius: 40px;
+        }
+
+        .card .card_image img {
+          width: inherit;
+          height: inherit;
+          border-radius: 40px;
+          object-fit: cover;
+        }
+
+        .card .card_title {
+          text-align: center;
+          border-radius: 0px 0px 40px 40px;
+          font-family: sans-serif;
+          font-weight: bold;
+          font-size: 30px;
+          margin-top: -80px;
+          height: 40px;
+        }
+
+        .card:hover {
+          transform: scale(0.9, 0.9);
+          box-shadow: 5px 5px 30px 15px rgba(0,0,0,0.25),
+            -5px -5px 30px 15px rgba(0,0,0,0.22);
+        }
+
+        .title-white {
+          color: white;
+        }
+
+        .title-black {
+          color: black;
+        }
+
+        @media all and (max-width: 500px) {
+          .card-list {
+            /* On small screens, we are no longer using row direction but column */
+            flex-direction: column;
+          }
+        }
+
+</style>
+<div class="card 1">
+<div class="card_image"> <img src="https://i.redd.it/b3esnz5ra34y.jpg" /> </div>
+<div class="card_title title-white">
+<p>The Temperature is {{ output }}&#8451;</p>
+
+</div>
+</div>
       <br><br>
       <pre>
-      <p id=result></p>
+
       </pre
       </div>
     </div>
